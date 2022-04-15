@@ -1,0 +1,7 @@
+JUMP printSkipLabel
+
+print:
+    print asd1
+    JUMP endPrint
+
+printSkipLabel:
