@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <template class="RamsimWindow" parent="GtkApplicationWindow">
+    <property name="default-width">700</property>
+    <property name="default-height">800</property>
+    <property name="title">RamSim</property>
+    
+    <child type="titlebar">
+      <object class="GtkHeaderBar" id="header_bar">
+        <child type="end">
+          <object class="GtkMenuButton">
+            <property name="icon-name">open-menu-symbolic</property>
+            <property name="menu-model">primary_menu</property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="GtkPaned">
+        <property name="orientation">vertical</property>
+        <property name="visible">True</property>
+        <property name="position">30</property>
+        <child>
+          <object class="GtkBox">
+            <property name="spacing">6</property>
+            <child>
+              <object class="GtkButton" id="run_button">
+                <property name="label">Run</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkButton" id="open_file_button">
+                <property name="label">Open file</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkButton" id="save_file_button">
+                <property name="label">Save file</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkPaned">
+            <property name="orientation">vertical</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="wide-handle">True</property>
+            <property name="position">650</property>
+            <child>
+              <object class="GtkPaned">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="wide-handle">True</property>
+                <property name="position">500</property>
+
+                <child>
+                  <object class="GtkScrolledWindow">
+                    <child>
+                      <object class="GtkTextView" id="code">
+                        <property name="visible">True</property>
+                        <property name="can-focus">True</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkTreeView" id="bufer">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+
+                    <child>
+                      <object class="GtkTreeViewColumn" id="bufer_id_col">
+                        <property name="title">ID</property>
+                        <child>
+                          <object class="GtkCellRendererText"/>
+                          <attributes>
+                            <attribute name="text">1</attribute>
+                          </attributes>
+                        </child>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="GtkTreeViewColumn" id="bufer_value_col">
+                        <property name="title">Value</property>
+                        <child>
+                          <object class="GtkCellRendererText"/>
+                          <attributes>
+                            <attribute name="text">1</attribute>
+                          </attributes>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkScrolledWindow">
+                <child>
+                  <object class="GtkTextView" id="output">
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="editable">False</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+
+  <menu id="primary_menu">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">_Preferences</attribute>
+        <attribute name="action">app.preferences</attribute>
+      </item>
+      <!-- <item>
+        <attribute name="label" translatable="yes">_Keyboard Shortcuts</attribute>
+        <attribute name="action">app.shotcuts</attribute>
+      </item> -->
+      <item>
+        <attribute name="label" translatable="yes">_About ramsim</attribute>
+        <attribute name="action">app.about</attribute>
+      </item>
+    </section>
+  </menu>
+</interface>
