@@ -20,7 +20,7 @@ class Register:
         return self.register[i]
     
     def set(self, i: int, v: int) -> bool:
-        if i < 0:
+        if i < 0 or not isinstance(i, int):
             self.errors.append(f"You cannot set register {i}")
             return False
         self.register[i] = v

@@ -4,18 +4,20 @@ from .register import Register
 from .ops import HALT, AdditionalOp, ops, LABEL, ArgS, ArgI, OpS, OpI, Operator, INCLUDE
 from .pointer import Pointer
 from .iout import IOut
+from .iiostream import IIOstream
 from .parser import Parser
 
 class Executor:
     parsed_data: List[Operator]
     pointer: Pointer
 
-    def __init__(self, parsed_data: List[Operator], out: IOut, register, path: str) -> None:
+    def __init__(self, parsed_data: List[Operator], out: IOut, iostream: IIOstream, register, path: str) -> None:
         self.parsed_data = parsed_data
         self.out = out
         self.register = register
         self.pointer = Pointer(len(self.parsed_data)-1)
         self.path = path
+        self.iostream = iostream
 
         # preprocessing
         if not self.includes() or not self.add_labels_to_pointer():
@@ -34,7 +36,7 @@ class Executor:
         return True
         
     
-    def includes(self):
+    def includes(self) -> bool:
         includes = []
         for n, op in enumerate(self.parsed_data):
             if not isinstance(op, INCLUDE):
@@ -51,7 +53,7 @@ class Executor:
         self.parsed_data = includes + self.parsed_data
         return True
     
-    def execute(self):
+    def execute(self) -> bool:
         while True:
             line = self.pointer.line
             operator = self.parsed_data[line]
@@ -60,7 +62,7 @@ class Executor:
             if isinstance(operator, HALT):
                 break
 
-            operator_error = operator.execute(self.register, self.pointer)
+            operator_error = operator.execute(self.register, self.pointer, self.iostream)
             if operator_error:
                 self.out.runtime_error(operator_error, operator.line+1, operator.file_path)
                 break

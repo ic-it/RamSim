@@ -2,6 +2,7 @@ from cProfile import label
 from dataclasses import dataclass
 from typing import Callable, List
 
+from .iiostream import IIOstream
 from .pointer import Pointer
 from .register import Register
 
@@ -21,7 +22,7 @@ class Operator:
     line: int
     file_path: str
     
-    def execute(self, register: Register, pointer: Pointer):...
+    def execute(self, register: Register, pointer: Pointer, iostream: IIOstream):...
 
 class OpI(Operator):
     arg: ArgI
@@ -69,7 +70,7 @@ class AdditionalOp(Operator):
 class LOAD(OpI):
     tokens: List[str] = ["LOAD", ]
 
-    def execute(self, register: Register, pointer: Pointer):
+    def execute(self, register: Register, pointer: Pointer, iostream: IIOstream):
         if self.arg.atype == 0:
             register.set(0, register.get(self.arg.data))
         if self.arg.atype == 1:
@@ -80,7 +81,7 @@ class LOAD(OpI):
 class STORE(OpI):
     tokens: List[str] = ["STORE", ]
 
-    def execute(self, register: Register, pointer: Pointer):
+    def execute(self, register: Register, pointer: Pointer, iostream: IIOstream):
         if self.arg.atype == 0:
             register.set(self.arg.data, register.get(0))
         if self.arg.atype == 1:
@@ -88,12 +89,37 @@ class STORE(OpI):
         if self.arg.atype == 2:
             register.set(register.get(self.arg.data), register.get(0))
 
+class WRITE(OpI):
+    tokens: List[str] = ["WRITE", ]
+
+    def execute(self, register: Register, pointer: Pointer, iostream: IIOstream):
+        value = None
+        if self.arg.atype == 0:
+            value = register.get(self.arg.data)
+        if self.arg.atype == 1:
+            value = self.arg.data
+        if self.arg.atype == 2:
+            value = register.get(register.get(self.arg.data))
+        if value:
+            iostream.output(value)
+
+class READ(OpI):
+    tokens: List[str] = ["READ", ]
+
+    def execute(self, register: Register, pointer: Pointer, iostream: IIOstream):
+        value = iostream.input()
+        if self.arg.atype == 0:
+            register.set(self.arg.data, value)
+        if self.arg.atype == 1:
+            return "You cannot store number"
+        if self.arg.atype == 2:
+            register.set(register.get(self.arg.data), value)
 
 # Math OPS
 class MathOp:
     op_func: Callable
 
-    def execute(self, register: Register, pointer: Pointer):
+    def execute(self, register: Register, pointer: Pointer, iostream: IIOstream):
         if self.arg.atype == 0:
             register.set(0, self.op_func(register.get(0), register.get(self.arg.data)))
         if self.arg.atype == 1:
@@ -124,14 +150,14 @@ class DIV(MathOp, OpI):
 class JMP(OpS):
     tokens: List[str] = ["JMP", "JUMP"]
     
-    def execute(self, register: Register, pointer: Pointer):
+    def execute(self, register: Register, pointer: Pointer, iostream: IIOstream):
         if not pointer.move_to_label(self.arg.data):
             return f"Label '{self.arg.data}' not found"
 
 class JZ(OpS):
     tokens: List[str] = ["JZ", "JUMP_ZERO"]
 
-    def execute(self, register: Register, pointer: Pointer):
+    def execute(self, register: Register, pointer: Pointer, iostream: IIOstream):
         if register.get(0) != 0:
             return
         if not pointer.move_to_label(self.arg.data):
@@ -140,7 +166,7 @@ class JZ(OpS):
 class JGZ(OpS):
     tokens: List[str] = ["JGZ", ]
     
-    def execute(self, register: Register, pointer: Pointer):
+    def execute(self, register: Register, pointer: Pointer, iostream: IIOstream):
         if register.get(0) > 0:
             return
         if not pointer.move_to_label(self.arg.data):
@@ -168,7 +194,7 @@ class INCLUDE(AdditionalOp):
 class PRINT(AdditionalOp):
     tokens: List[str] = ["PRINT", ]
     
-    def execute(self, register: Register, pointer: Pointer):
+    def execute(self, register: Register, pointer: Pointer, iostream: IIOstream):
         
         if self.arg.data.isdigit():
             print(register.get(int(self.arg.data)))
@@ -181,6 +207,8 @@ class PRINT(AdditionalOp):
 ops: List[OpS | OpI] = [
     LOAD,
     STORE,
+    WRITE,
+    READ,
     ADD,
     SUB,
     MUL,

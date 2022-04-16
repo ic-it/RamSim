@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk" version="4.0"/>
+  <requires lib="gtksource" version="5.0" />
   <template class="RamsimWindow" parent="GtkApplicationWindow">
     <property name="default-width">700</property>
     <property name="default-height">800</property>
@@ -24,6 +25,17 @@
         <child>
           <object class="GtkBox">
             <property name="spacing">6</property>
+            <child>
+              <object class="GtkLabel">
+                <property name="label">Input</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkEntry">
+                <property name="max-width-chars">50</property>
+                <property name="margin-end">100</property>
+              </object>
+            </child>
             <child>
               <object class="GtkButton" id="run_button">
                 <property name="label">Run</property>
@@ -56,7 +68,7 @@
                 <property name="position">500</property>
 
                 <child>
-                  <object class="GtkScrolledWindow">
+                  <object class="GtkScrolledWindow" id="codewin">
                     <child>
                       <object class="GtkTextView" id="code">
                         <property name="visible">True</property>
@@ -99,12 +111,37 @@
               </object>
             </child>
             <child>
-              <object class="GtkScrolledWindow">
+              <object class="GtkPaned">
+                <property name="orientation">vertical</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="wide-handle">True</property>
+                <property name="position">30</property>
                 <child>
-                  <object class="GtkTextView" id="output">
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                    <property name="editable">False</property>
+                  <object class="GtkBox">
+                    <property name="spacing">6</property>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label">Output</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="output">
+                        <property name="editable">False</property>
+                        <property name="max-width-chars">50</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkScrolledWindow">
+                    <child>
+                      <object class="GtkTextView" id="info_out">
+                        <property name="visible">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="editable">False</property>
+                      </object>
+                    </child>
                   </object>
                 </child>
               </object>

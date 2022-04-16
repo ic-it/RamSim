@@ -1,13 +1,14 @@
 INCLUDE print
 
 LOAD =4
-ADD =1
+ADD =2
 STORE 2
 
 JUMP print
 endPrint:
 
-print 2
+
+WRITE 2
 
 HALT
 
