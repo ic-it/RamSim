@@ -10,11 +10,12 @@ class Executor:
     parsed_data: List[Operator]
     pointer: Pointer
 
-    def __init__(self, parsed_data: List[Operator], out: IOut, register) -> None:
+    def __init__(self, parsed_data: List[Operator], out: IOut, register, path: str) -> None:
         self.parsed_data = parsed_data
         self.out = out
         self.register = register
         self.pointer = Pointer(len(self.parsed_data)-1)
+        self.path = path
 
         # preprocessing
         if not self.includes() or not self.add_labels_to_pointer():
@@ -28,7 +29,7 @@ class Executor:
             if not isinstance(op, LABEL):
                 continue
             if not self.pointer.add_label(op.arg.data, n):
-                self.out.runtime_error("Label is already exists", op.line, op.filename)
+                self.out.runtime_error("Label is already exists", op.line, op.file_path)
                 return False
         return True
         
@@ -39,11 +40,10 @@ class Executor:
             if not isinstance(op, INCLUDE):
                 continue
         
-            file_path = op.arg.data
+            file_path = self.path + op.arg.data
             if not file_path.endswith(".ram"):
-                op.arg.data += ".ram"
-            with open(op.arg.data, "r") as f:
-                p = Parser(f, self.out)
+                file_path += ".ram"
+            p = Parser(file_path, self.out)
             self.parsed_data.pop(n)
             if not p.parse():
                 return False
@@ -62,10 +62,10 @@ class Executor:
 
             operator_error = operator.execute(self.register, self.pointer)
             if operator_error:
-                self.out.runtime_error(operator_error, operator.line+1, operator.filename)
+                self.out.runtime_error(operator_error, operator.line+1, operator.file_path)
                 break
             for error in self.register.get_errors():
-                self.out.runtime_error(error, operator.line+1, operator.filename)
+                self.out.runtime_error(error, operator.line+1, operator.file_path)
                 break
             if not self.pointer.move():
                 self.out.runtime_error("Use HALT to end the programm")

@@ -15,13 +15,13 @@ class Register:
     
     def get(self, i: int) -> int | None:
         if i not in self.register:
-            self.errors.append(f"You cannot get {i} register")
+            self.errors.append(f"You cannot get register {i}")
             return
         return self.register[i]
     
     def set(self, i: int, v: int) -> bool:
         if i < 0:
-            self.errors.append(f"You cannot set {i} register")
+            self.errors.append(f"You cannot set register {i}")
             return False
         self.register[i] = v
         return True

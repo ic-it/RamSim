@@ -8,7 +8,7 @@ from ramsim.executor import Executor
 from ramsim.iout import IOut
 from ramsim.register import Register
 
-@Gtk.Template(string=open('window.ui', 'r').read())
+@Gtk.Template(string=open('gtk/window.ui', 'r').read())
 class RamsimWindow(Gtk.ApplicationWindow):
     __gtype_name__ = 'RamsimWindow'
 

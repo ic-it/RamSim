@@ -4,17 +4,18 @@ from .ops import HALT, AdditionalOp, ops, LABEL, ArgS, ArgI, OpS, OpI
 from .iout import IOut
 
 class Parser:
-    def __init__(self, file: TextIO, out: IOut) -> None:
-        self.input_value = file.read().split("\n")
+    def __init__(self, file_path: str, out: IOut) -> None:
+        with open(file_path, 'r') as f:
+            self.input_value = f.read().split("\n")
         self.parsed_data: List[HALT|OpI|OpS|AdditionalOp] = []
         self.out = out
-        self.filename = file.name
+        self.file_path = file_path
     
     def parse(self) -> bool:
         for linen, line in enumerate(self.input_value):
             status, message = self.parse_line(line, linen)
             if not status:
-                self.out.syntax_error(message, linen + 1, self.filename)
+                self.out.syntax_error(message, linen + 1, self.file_path)
                 return False
         return True
     
@@ -52,7 +53,7 @@ class Parser:
         # LABEL syntx "asdasd:"
         if line.endswith(":"):
             line = line[:-1]
-            self.parsed_data.append(LABEL(ArgS(line), linen, self.filename))
+            self.parsed_data.append(LABEL(ArgS(line), linen, self.file_path))
             return True, ""
         
         # Find operator
@@ -75,21 +76,21 @@ class Parser:
 
             if not line.isdigit():
                 return False, "Incorrect args"
-            self.parsed_data.append(op(ArgI(int(line), atype), linen, self.filename))
+            self.parsed_data.append(op(ArgI(int(line), atype), linen, self.file_path))
             return True, ""
         elif issubclass(op, OpS):
             op: OpS
 
             line = line.replace(" ", "")
-            self.parsed_data.append(op(ArgS(line), linen, self.filename))
+            self.parsed_data.append(op(ArgS(line), linen, self.file_path))
             return True, ""
         elif issubclass(op, AdditionalOp):
             op: AdditionalOp
 
             line = line.replace(" ", "")
-            self.parsed_data.append(op(ArgS(line), linen, self.filename))
+            self.parsed_data.append(op(ArgS(line), linen, self.file_path))
             return True, ""
         elif issubclass(op, HALT):
-            self.parsed_data.append(op(linen, self.filename))
+            self.parsed_data.append(op(linen, self.file_path))
             return True, ""
         return False, "?ERROR?"

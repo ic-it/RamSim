@@ -19,7 +19,7 @@ class Operator:
     arg: ArgI | ArgS
     tokens: List[str]
     line: int
-    filename: str
+    file_path: str
     
     def execute(self, register: Register, pointer: Pointer):...
 
@@ -27,12 +27,12 @@ class OpI(Operator):
     arg: ArgI
     tokens: List[str] = None
     line: int
-    filename: str
+    file_path: str
 
-    def __init__(self, arg: ArgI, line: int, filename: str) -> None:
+    def __init__(self, arg: ArgI, line: int, file_path: str) -> None:
         self.arg = arg
         self.line = line
-        self.filename = filename
+        self.file_path = file_path
 
     def __str__(self) -> str:
         return f"{self.tokens}: [{self.arg.data}; {self.arg.atype}]"
@@ -41,12 +41,12 @@ class OpS(Operator):
     arg: ArgS
     tokens: List[str]
     line: int
-    filename: str
+    file_path: str
 
-    def __init__(self, arg: ArgS, line: int, filename: str) -> None:
+    def __init__(self, arg: ArgS, line: int, file_path: str) -> None:
         self.arg = arg
         self.line = line
-        self.filename = filename
+        self.file_path = file_path
     
     def __str__(self) -> str:
         return f"{self.tokens}: [{self.arg.data}]"
@@ -55,12 +55,12 @@ class AdditionalOp(Operator):
     arg: ArgS
     tokens: List[str]
     line: int
-    filename: str
+    file_path: str
 
-    def __init__(self, arg: ArgS, line: int, filename: str) -> None:
+    def __init__(self, arg: ArgS, line: int, file_path: str) -> None:
         self.arg = arg
         self.line = line
-        self.filename = filename
+        self.file_path = file_path
     
     def __str__(self) -> str:
         return f"{self.tokens}: [{self.arg.data}]"
@@ -152,11 +152,11 @@ class LABEL(OpS):
 class HALT:
     tokens: List[str] = ["HALT", ]
     line: int
-    filename: str
+    file_path: str
 
-    def __init__(self, line: int, filename: str) -> None:
+    def __init__(self, line: int, file_path: str) -> None:
         self.line = line
-        self.filename = filename
+        self.file_path = file_path
             
     __str__ = lambda self: "[HALT]"
 
