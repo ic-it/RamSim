@@ -2,7 +2,7 @@
 ## Random access machine emulator
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
-## Suntax:
+## Syntax:
 ```
 links:
     1. explicit link (int)
@@ -16,7 +16,7 @@ MATH OPERATORS:
 Label:
 Syntax: "labelname:"
 
-Coment:
+Comment:
 Syntax: # asdasd
 ```
 | Operator | Usage |
