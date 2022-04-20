@@ -2,6 +2,7 @@ from pprint import pprint
 from time import sleep
 from typing import List
 
+from .icallbacks import ICallbacks
 from .register import Register
 from .ops import HALT, AdditionalOp, ops, LABEL, ArgS, ArgI, OpS, OpI, Operator, INCLUDE
 from .pointer import Pointer
@@ -13,13 +14,14 @@ class Executor:
     parsed_data: List[Operator]
     pointer: Pointer
 
-    def __init__(self, parsed_data: List[Operator], out: IOut, iostream: IIOstream, register, path: str) -> None:
+    def __init__(self, parsed_data: List[Operator], out: IOut, iostream: IIOstream, register: Register, path: str, callbacks: ICallbacks = None) -> None:
         self.parsed_data = parsed_data
         self.out = out
         self.register = register
         self.pointer = Pointer(len(self.parsed_data)-1)
         self.path = path
         self.iostream = iostream
+        self.callbacks = callbacks
 
         # preprocessing
         if not self.includes() or not self.add_labels_to_pointer():
@@ -65,6 +67,9 @@ class Executor:
                 break
 
             operator_error = operator.execute(self.register, self.pointer, self.iostream)
+            if self.callbacks:
+                self.callbacks.execute(self.register, operator, self.pointer)
+            
             if operator_error:
                 self.out.runtime_error(operator_error, operator.line+1, operator.file_path)
                 break

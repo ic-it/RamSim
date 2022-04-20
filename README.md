@@ -31,18 +31,18 @@ Syntax: # asdasd
 | INCLUDE | include file |
 | PRINT | print string |
 
-
-## Usage:
+## Realization for console
+### Usage:
 #### Help
-    python3 cui.py -h
+    python3 main.py -h
 #### Simple execute
-    python3 cui.py <file>
+    python3 main.py <file>
 #### Select input file
-    python3 cui.py --input <file> <file>
+    python3 main.py --input <file> <file>
 #### Select output file
-    python3 cui.py --output <file> <file> 
+    python3 main.py --output <file> <file> 
 #### Example
-    python3 cui.py --input tests/args --output tests/out tests/test.ram 
+    python3 main.py --input tests/args --output tests/out tests/test.ram 
 
 
 ## Syntax Highlighting

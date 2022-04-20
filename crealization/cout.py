@@ -1,4 +1,4 @@
-from .iout import IOut
+from ramsim.iout import IOut
 
 
 class COut(IOut):

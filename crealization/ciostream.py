@@ -1,6 +1,6 @@
 from typing import Union
 from typing import List, Optional
-from .iiostream import IIOstream
+from ramsim.iiostream import IIOstream
 
 
 class CIOstream(IIOstream):
