@@ -1,0 +1,29 @@
+INCLUDE print
+
+load =0
+
+store 1
+store 2
+
+reading:
+	read 0
+	jzero finaly
+
+	add 2
+	store 2
+	load =1
+	add 1
+	store 1
+
+	jump reading
+
+finaly:
+	load =0
+	add 2
+	div 1
+	store 2
+
+	JUMP print # run function in file
+	endPrint:  # exit from function
+	
+	HALT

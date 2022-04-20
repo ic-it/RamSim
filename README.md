@@ -25,8 +25,22 @@ Syntax: # asdasd
 | STORE | R[0] -> R[X] |
 | MATH OP | R[0] <- R[0] MATH OP R[X] |
 | JMP or JUMP | Jump to label |
-| JZ | Jump to label if R[0] == 0 |
-| JGZ | Jump to label if R[0] > 0 |
+| JZ or JZERO | Jump to label if R[0] == 0 |
+| JGZ or JGTZ | Jump to label if R[0] > 0 |
 | HALT | Quit |
 | INCLUDE | include file |
 | PRINT | print string |
+
+
+## Usage:
+#### Help
+    python3 cui.py -h
+#### Simple execute
+    python3 cui.py <file>
+#### Select input file
+    python3 cui.py --input <file> <file>
+#### Select output file
+    python3 cui.py --output <file> <file> 
+#### Example
+    python3 cui.py --input tests/args --output tests/out tests/test.ram 
+

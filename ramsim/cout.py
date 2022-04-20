@@ -1,7 +1,7 @@
 from .iout import IOut
 
 
-class Out(IOut):
+class COut(IOut):
     def __init__(self) -> None:
         pass
     

@@ -120,12 +120,17 @@ class MathOp:
     op_func: Callable
 
     def execute(self, register: Register, pointer: Pointer, iostream: IIOstream):
+        r0 = register.get(0)
+        rx = None
         if self.arg.atype == 0:
-            register.set(0, self.op_func(register.get(0), register.get(self.arg.data)))
+            rx = register.get(self.arg.data)
         if self.arg.atype == 1:
-            register.set(0, self.op_func(register.get(0), self.arg.data))
+            rx = self.arg.data
         if self.arg.atype == 2:
-            register.set(0, self.op_func(register.get(0), register.get(register.get(self.arg.data))))
+            rx = register.get(register.get(self.arg.data))
+        if None in [r0, rx]:
+            return
+        register.set(0, self.op_func(r0, rx))
 
 class ADD(MathOp, OpI):
     tokens: List[str] = ["ADD", ]
@@ -155,7 +160,7 @@ class JMP(OpS):
             return f"Label '{self.arg.data}' not found"
 
 class JZ(OpS):
-    tokens: List[str] = ["JZ", "JUMP_ZERO"]
+    tokens: List[str] = ["JZ", "JZERO"]
 
     def execute(self, register: Register, pointer: Pointer, iostream: IIOstream):
         if register.get(0) != 0:
@@ -164,7 +169,7 @@ class JZ(OpS):
             return f"Label '{self.arg.data}' not found"
 
 class JGZ(OpS):
-    tokens: List[str] = ["JGZ", ]
+    tokens: List[str] = ["JGZ", "JGTZ"]
     
     def execute(self, register: Register, pointer: Pointer, iostream: IIOstream):
         if register.get(0) > 0:

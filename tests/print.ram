@@ -1,7 +1,8 @@
 JUMP printSkipLabel
 
 print:
-    print asd1
+    write 1
+	write 2
     JUMP endPrint
 
 printSkipLabel:

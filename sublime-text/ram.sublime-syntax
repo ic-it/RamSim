@@ -1,0 +1,39 @@
+%YAML 1.2
+---
+# See http://www.sublimetext.com/docs/3/syntax.html
+file_extensions:
+  - ram
+
+name: RamSim
+scope: source.ram
+contexts:
+  main:
+    - match: (?i)\b(include|halt|jump|jmp|jz|jzero|jgz|jgtz)\b
+      scope: keyword.control.c
+
+    - match: (?i)\b(add|sub|mul|div|load|store|write|read)\b
+      scope: entity.name.function
+
+    - match: (?i)[a-z]+[:]
+      scope: variable.parameter.c++
+
+    - match: '"'
+      push: string
+
+    - match: \b[0-9]+\b
+      scope: constant.numeric.python
+
+    - match: '#'
+      scope: punctuation.definition.comment.python
+      push: line_comment
+
+  string:
+    - meta_scope: string.quoted.double.python
+    - match: '"'
+      pop: true
+
+
+  line_comment:
+    - meta_scope: comment.line.python
+    - match: $
+      pop: true

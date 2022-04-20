@@ -36,19 +36,25 @@ class Parser:
         return tokenisf, line, fop
 
     def parse_line(self, line: str, linen: int) -> Tuple[bool, str]:
+
+        # clear
+        if line.startswith("#"):
+            return True, ""
+        while "#" in line:
+            line, _ = line.split("#", 1)
+        #
+
         # remove spaces in start and end
-        while line.startswith(" "):
+        while line.startswith(" ") or line.startswith("\t"):
             line = line[1:]
-        while line.endswith(" "):
+        while line.endswith(" ") or line.startswith("\t"):
             line = line[:-1]
         #
 
+        # if line is empty
         if not line:
             return True, ""
-        if line.startswith("#"):
-            return True, ""
-        if "#" in line:
-            line, _ = line.split("#", 1)
+        # 
         
         # LABEL syntx "asdasd:"
         if line.endswith(":"):
@@ -81,7 +87,7 @@ class Parser:
         elif issubclass(op, OpS):
             op: OpS
 
-            line = line.replace(" ", "")
+            line = line.replace(' ', '').replace('\'', '').replace('"', '')
             self.parsed_data.append(op(ArgS(line), linen, self.file_path))
             return True, ""
         elif issubclass(op, AdditionalOp):
