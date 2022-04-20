@@ -26,6 +26,7 @@ class Executor:
 
         # preprocessing
         if not self.includes() or not self.add_labels_to_pointer():
+            self.parsed_data = []
             return
         
         # Pointer needs all lines amount

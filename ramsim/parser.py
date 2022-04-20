@@ -5,21 +5,33 @@ from .ops import HALT, AdditionalOp, ops, LABEL, ArgS, ArgI, OpS, OpI
 from .iout import IOut
 
 class Parser:
-    def __init__(self, file_path: str, out: IOut) -> None:
-        if not os.path.exists(file_path):
-            self.out.syntax_error("File not exists", -1, file_path)
-            return
-        with open(file_path, 'r') as f:
+    parsed_data: List[Union[HALT, OpI, OpS, AdditionalOp]]
+    out: IOut
+    file_path: str
+
+
+    def __init__(self, file_path: str, out: IOut) -> None:        
+        self.parsed_data: List[Union[HALT, OpI, OpS, AdditionalOp]] = []
+        self.out = out
+        self.file_path = file_path
+        self.read_data_from_file()
+
+    def read_data_from_file(self):
+        if not os.path.exists(self.file_path):
+            self.out.syntax_error("File not exists", -1, self.file_path)
+            self.file_path = None
+            return False
+        with open(self.file_path, 'r') as f:
             file_data = f.read()
             if '\n' in file_data:
                 self.input_value = file_data.split("\n")
             else:
                 self.input_value = file_data
-        self.parsed_data: List[Union[HALT, OpI, OpS, AdditionalOp]] = []
-        self.out = out
-        self.file_path = file_path
-    
+        return True
+
     def parse(self) -> bool:
+        if not self.file_path:
+            return False
         for linen, line in enumerate(self.input_value):
             status, message = self.parse_line(line, linen)
             if not status:
