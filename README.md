@@ -41,8 +41,10 @@ Syntax: # asdasd
     python3 main.py --input <file> <file>
 #### Select output file
     python3 main.py --output <file> <file> 
+#### Break points
+    python3 main.py --break-points <list of int> --spl <file>
 #### Example
-    python3 main.py --input tests/args --output tests/out tests/test.ram 
+    python3 main.py --input tests/1/args --output tests/1/out --bp 1 2 3 4 5 --spl tests/1/main.ram 
 
 
 ## Syntax Highlighting

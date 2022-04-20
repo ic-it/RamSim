@@ -1,3 +1,4 @@
+import os
 from pprint import pprint
 from time import sleep
 from typing import List
@@ -49,6 +50,9 @@ class Executor:
             file_path = self.path + op.arg.data
             if not file_path.endswith(".ram"):
                 file_path += ".ram"
+            if not os.path.exists(file_path):
+                self.out.runtime_error(f"File {file_path} not exists", op.line, op.file_path)
+                return False
             p = Parser(file_path, self.out)
             self.parsed_data.pop(n)
             if not p.parse():
@@ -58,7 +62,7 @@ class Executor:
         return True
     
     def execute(self) -> bool:
-        while True:
+        while len(self.parsed_data):
             line = self.pointer.line
             operator = self.parsed_data[line]
             if isinstance(operator, LABEL):

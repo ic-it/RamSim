@@ -1,13 +1,20 @@
 from ctypes import Union
-from re import L
-from typing import List, Tuple, TextIO
+import os
+from typing import List, Tuple
 from .ops import HALT, AdditionalOp, ops, LABEL, ArgS, ArgI, OpS, OpI
 from .iout import IOut
 
 class Parser:
     def __init__(self, file_path: str, out: IOut) -> None:
+        if not os.path.exists(file_path):
+            self.out.syntax_error("File not exists", -1, file_path)
+            return
         with open(file_path, 'r') as f:
-            self.input_value = f.read().split("\n")
+            file_data = f.read()
+            if '\n' in file_data:
+                self.input_value = file_data.split("\n")
+            else:
+                self.input_value = file_data
         self.parsed_data: List[Union[HALT, OpI, OpS, AdditionalOp]] = []
         self.out = out
         self.file_path = file_path

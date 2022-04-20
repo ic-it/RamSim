@@ -1,0 +1,71 @@
+load =0
+store 1 # Everage
+
+load =100
+store 2 # input amount
+
+load =4
+store 3 # Pos to read
+
+reader:
+	load =0
+	add  3
+	sub  2 #
+	sub =4 # skip 0-3 register
+
+	jz continue
+
+	load =0
+	read *3
+	add  *3
+	add   1
+	store 1
+
+	load =0
+	load  3
+	add  =1
+	store 3
+
+	jmp reader
+
+
+continue:
+load =0
+load 1
+div  2
+store 1
+
+load =4
+store 3
+
+reader2:
+	load =0
+	add  3
+	sub  2 #
+	sub =4 # skip 0-3 register
+
+	jz exit
+
+	load =0
+	add  *3
+	sub   1
+	
+	jgtz print
+	jmp  skipprint
+
+	print:
+		write *3
+	skipprint:
+
+	load =0
+	load  3
+	add  =1
+	store 3
+	
+	jmp reader2
+
+
+
+exit:
+
+HALT
