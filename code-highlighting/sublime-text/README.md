@@ -3,5 +3,5 @@
 ## Install:
 ### Flatpak app:
 ```bash
-cp sublime-text/ram.sublime-syntax ~/.var/app/com.sublimetext.three/config/sublime-text-3/Packages/User/
+cp ram.sublime-syntax ~/.var/app/com.sublimetext.three/config/sublime-text-3/Packages/User/
 ```
