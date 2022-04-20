@@ -1,3 +1,4 @@
+from typing import Union
 from typing import Dict, List
 from .iout import IOut
 
@@ -13,7 +14,7 @@ class Register:
         while self.errors:
             yield self.errors.pop(0)
     
-    def get(self, i: int) -> int | None:
+    def get(self, i: int) -> Union[int, None]:
         if i not in self.register:
             self.errors.append(f"You cannot get register {i}")
             return

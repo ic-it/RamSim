@@ -1,4 +1,4 @@
-from cProfile import label
+from typing import Union
 from dataclasses import dataclass
 from typing import Callable, List
 
@@ -17,7 +17,7 @@ class ArgS:
     data: str
 
 class Operator:
-    arg: ArgI | ArgS
+    arg: Union[ArgI, ArgS]
     tokens: List[str]
     line: int
     file_path: str
@@ -209,7 +209,7 @@ class PRINT(AdditionalOp):
             print(self.arg.data)
 
 
-ops: List[OpS | OpI] = [
+ops: List[Union[OpS, OpI]] = [
     LOAD,
     STORE,
     WRITE,

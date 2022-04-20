@@ -1,4 +1,5 @@
-from typing import List
+from typing import Union
+from typing import List, Optional
 from .iiostream import IIOstream
 
 
@@ -10,7 +11,7 @@ class CIOstream(IIOstream):
         self.inp = inp
         self.out = out
     
-    def input(self) -> int | None:
+    def input(self) -> Union[int, None]:
         if self.inp:
             return self.inp.pop(0)
         

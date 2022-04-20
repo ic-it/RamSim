@@ -1,3 +1,4 @@
+from ctypes import Union
 from re import L
 from typing import List, Tuple, TextIO
 from .ops import HALT, AdditionalOp, ops, LABEL, ArgS, ArgI, OpS, OpI
@@ -7,7 +8,7 @@ class Parser:
     def __init__(self, file_path: str, out: IOut) -> None:
         with open(file_path, 'r') as f:
             self.input_value = f.read().split("\n")
-        self.parsed_data: List[HALT|OpI|OpS|AdditionalOp] = []
+        self.parsed_data: List[Union[HALT, OpI, OpS, AdditionalOp]] = []
         self.out = out
         self.file_path = file_path
     
