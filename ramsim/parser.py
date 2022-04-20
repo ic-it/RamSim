@@ -48,7 +48,7 @@ class Parser:
         # remove spaces in start and end
         while line.startswith(" ") or line.startswith("\t"):
             line = line[1:]
-        while line.endswith(" ") or line.startswith("\t"):
+        while line.endswith(" ") or line.endswith("\t"):
             line = line[:-1]
         #
 

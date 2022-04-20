@@ -1,3 +1,5 @@
+from pprint import pprint
+from time import sleep
 from typing import List
 
 from .register import Register

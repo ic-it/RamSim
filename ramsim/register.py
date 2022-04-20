@@ -26,3 +26,6 @@ class Register:
             return False
         self.register[i] = v
         return True
+    
+    def __str__(self) -> str:
+        return str(self.register)

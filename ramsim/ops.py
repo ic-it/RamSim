@@ -172,7 +172,7 @@ class JGZ(OpS):
     tokens: List[str] = ["JGZ", "JGTZ"]
     
     def execute(self, register: Register, pointer: Pointer, iostream: IIOstream):
-        if register.get(0) > 0:
+        if register.get(0) <= 0:
             return
         if not pointer.move_to_label(self.arg.data):
             return f"Label '{self.arg.data}' not found"

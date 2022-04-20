@@ -14,7 +14,7 @@ contexts:
     - match: (?i)\b(add|sub|mul|div|load|store|write|read)\b
       scope: entity.name.function
 
-    - match: (?i)[a-z]+[:]
+    - match: (?i)[a-z 0-9]+[:]
       scope: variable.parameter.c++
 
     - match: '"'

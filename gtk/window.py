@@ -102,6 +102,7 @@ class RamsimWindow(Gtk.ApplicationWindow):
             text = editable.get_text(editable.get_start_iter(), editable.get_end_iter(), None)
             ti = editable.get_start_iter()
             cpos = ti.get_offset()
+            cpos = editable.get_property()
             ops_colors = {
                 HALT: "#FF5936",
                 AdditionalOp: "#3698FF",
