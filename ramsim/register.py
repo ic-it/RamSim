@@ -14,6 +14,9 @@ class Register:
         while self.errors:
             yield self.errors.pop(0)
     
+    def has_errors(self) -> bool:
+        return True if len(self.errors) else False
+    
     def get(self, i: int) -> Union[int, None]:
         if i not in self.register:
             self.errors.append(f"You cannot get register {i}")

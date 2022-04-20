@@ -77,8 +77,9 @@ class Executor:
             if operator_error:
                 self.out.runtime_error(operator_error, operator.line+1, operator.file_path)
                 break
-            for error in self.register.get_errors():
-                self.out.runtime_error(error, operator.line+1, operator.file_path)
+            if self.register.has_errors():
+                for error in self.register.get_errors():
+                    self.out.runtime_error(error, operator.line+1, operator.file_path)
                 break
             if not self.pointer.move():
                 self.out.runtime_error("Use HALT to end the programm")
