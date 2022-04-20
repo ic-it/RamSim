@@ -44,3 +44,6 @@ Syntax: # asdasd
 #### Example
     python3 cui.py --input tests/args --output tests/out tests/test.ram 
 
+
+## Syntax Highlighting
+- [Sublime Text](./code-highlighting/sublime-text/README.md)
