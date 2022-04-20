@@ -1,11 +1,11 @@
 import argparse
 import os
+
+
 from crealization.callbacks import Callbacks
 from crealization.ciostream import CIOstream
-
-
-from ramsim.executor import Executor
 from crealization.cout import COut
+from ramsim.executor import Executor
 from ramsim.parser import Parser
 from ramsim.register import Register
 

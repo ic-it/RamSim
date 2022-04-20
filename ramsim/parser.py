@@ -1,6 +1,6 @@
-from ctypes import Union
 import os
-from typing import List, Tuple
+
+from typing import List, Tuple, Union
 from .ops import HALT, AdditionalOp, ops, LABEL, ArgS, ArgI, OpS, OpI
 from .iout import IOut
 

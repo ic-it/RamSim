@@ -5,7 +5,7 @@ from typing import List
 
 from .icallbacks import ICallbacks
 from .register import Register
-from .ops import HALT, AdditionalOp, ops, LABEL, ArgS, ArgI, OpS, OpI, Operator, INCLUDE
+from .ops import HALT, LABEL, Operator, INCLUDE
 from .pointer import Pointer
 from .iout import IOut
 from .iiostream import IIOstream
