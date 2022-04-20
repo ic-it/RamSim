@@ -46,6 +46,5 @@ Syntax: # asdasd
 #### Example
     python3 main.py --input tests/1/args --output tests/1/out --bp 1 2 3 4 5 --spl tests/1/main.ram 
 
-
 ## Syntax Highlighting
 - [Sublime Text](./code-highlighting/sublime-text/README.md)
