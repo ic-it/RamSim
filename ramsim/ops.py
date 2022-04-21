@@ -100,7 +100,7 @@ class WRITE(OpI):
             value = self.arg.data
         if self.arg.atype == 2:
             value = register.get(register.get(self.arg.data))
-        if value:
+        if value != None:
             iostream.output(value)
 
 class READ(OpI):
