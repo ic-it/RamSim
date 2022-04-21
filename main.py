@@ -1,5 +1,6 @@
 import argparse
 import os
+import sys
 
 
 from crealization.callbacks import Callbacks
@@ -40,7 +41,11 @@ p = Parser(args.source, COut())
 if p.parse():
     r = Register()
     e = Executor(p.parsed_data, COut(), cios, r, os.path.dirname(args.source) + "/", Callbacks(args.break_points, args.source))
-    e.execute()
+    try:
+        e.execute()
+    except KeyboardInterrupt:
+        print("\nStoped")
+        sys.exit()
 
 if args.output:
     with open(args.output, 'w') as f:
