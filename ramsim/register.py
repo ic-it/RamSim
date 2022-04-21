@@ -18,9 +18,11 @@ class Register:
         return True if len(self.errors) else False
     
     def get(self, i: int) -> Union[int, None]:
-        if i not in self.register:
+        if i < 0 or not isinstance(i, int):
             self.errors.append(f"You cannot get register {i}")
             return
+        if i not in self.register:
+            self.register[i] = 0
         return self.register[i]
     
     def set(self, i: int, v: int) -> bool:
