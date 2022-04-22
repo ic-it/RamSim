@@ -108,6 +108,8 @@ class READ(OpI):
 
     def execute(self, register: Register, pointer: Pointer, iostream: IIOstream):
         value = iostream.input()
+        if value == None or not isinstance(value, int):
+            return "Incorrect input"
         if self.arg.atype == 0:
             register.set(self.arg.data, value)
         if self.arg.atype == 1:
