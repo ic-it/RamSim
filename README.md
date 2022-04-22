@@ -35,19 +35,27 @@ Syntax: # asdasd
 I tried to make the program modular, so that if necessary, you can change the interfaces to it. In the `crealization` folder there are implementations of interfaces for `iostream` (input output data), `out` (output alerts) and `callbacks` (calls from within modules) through the console. The `main.py` file is an implementation for console. 
 
 ## Realization for console
+## Install
+### Linux: 
+```bash
+chmod +x install.sh
+./install.sh
+```
+If you are unable to install, write `python3 <dir to program>/main.py` instead of `ramsim`.
+
 ### Usage:
 #### Help
-    python3 main.py -h
+    ramsim -h
 #### Simple execute
-    python3 main.py <file>
+    ramsim <file>
 #### Select input file
-    python3 main.py --input <file> <file>
+    ramsim --input <file> <file>
 #### Select output file
-    python3 main.py --output <file> <file> 
+    ramsim --output <file> <file> 
 #### Break points
-    python3 main.py --break-points <list of int> --spl <file>
+    ramsim --break-points <list of int> --spl <file>
 #### Example
-    python3 main.py --input tests/1/args --output tests/1/out --bp 1 2 3 4 5 --spl tests/1/main.ram 
+    ramsim --input tests/1/args --output tests/1/out --bp 1 2 3 4 5 --spl tests/1/main.ram 
 
 ## Syntax Highlighting
 You can add syntax highlighting to supported code editors
