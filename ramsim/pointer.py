@@ -7,7 +7,7 @@ class Pointer:
     labels: Dict[str, int]
     error: str
 
-    def __init__(self, max_line: int) -> None:
+    def __init__(self, max_line: int = -1) -> None:
         self.line = 0
         self.max_line = max_line
         self.labels = {}

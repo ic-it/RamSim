@@ -16,13 +16,24 @@ class ArgI:
 class ArgS:
     data: str
 
+
 class Operator:
+    "General description of the operator"
+
     arg: Union[ArgI, ArgS]
     tokens: List[str]
     line: int
     file_path: str
+
+    def __init__(self, arg: Union[ArgI, ArgS], line: int, file_path: str) -> None:
+        self.arg = arg
+        self.line = line
+        self.file_path = file_path
     
-    def execute(self, register: Register, pointer: Pointer, iostream: IIOstream):...
+    def execute(self, register: Register, pointer: Pointer, iostream: IIOstream) -> Union[str, None]:...
+
+    def __str__(self) -> str:
+        return f"{self.tokens}: [{self.arg.data}]"
 
 class OpI(Operator):
     arg: ArgI
@@ -31,9 +42,7 @@ class OpI(Operator):
     file_path: str
 
     def __init__(self, arg: ArgI, line: int, file_path: str) -> None:
-        self.arg = arg
-        self.line = line
-        self.file_path = file_path
+        super().__init__(arg, line, file_path)
 
     def __str__(self) -> str:
         return f"{self.tokens}: [{self.arg.data}; {self.arg.atype}]"
@@ -45,12 +54,7 @@ class OpS(Operator):
     file_path: str
 
     def __init__(self, arg: ArgS, line: int, file_path: str) -> None:
-        self.arg = arg
-        self.line = line
-        self.file_path = file_path
-    
-    def __str__(self) -> str:
-        return f"{self.tokens}: [{self.arg.data}]"
+        super().__init__(arg, line, file_path)
 
 class AdditionalOp(Operator):
     arg: ArgS
@@ -59,12 +63,8 @@ class AdditionalOp(Operator):
     file_path: str
 
     def __init__(self, arg: ArgS, line: int, file_path: str) -> None:
-        self.arg = arg
-        self.line = line
-        self.file_path = file_path
-    
-    def __str__(self) -> str:
-        return f"{self.tokens}: [{self.arg.data}]"
+        super().__init__(arg, line, file_path)
+
 
 
 class LOAD(OpI):
@@ -178,7 +178,7 @@ class JGZ(OpS):
             return f"Label '{self.arg.data}' not found"
 
 class LABEL(OpS):
-    tokens: List[str] = ["/LABEL", ]
+    tokens: List[str] = ["LABEL", ]
 
 class HALT:
     tokens: List[str] = ["HALT", ]
@@ -189,7 +189,7 @@ class HALT:
         self.line = line
         self.file_path = file_path
             
-    __str__ = lambda self: "[HALT]"
+    __str__ = lambda s: "[HALT]"
 
 
 class INCLUDE(AdditionalOp):
@@ -197,6 +197,7 @@ class INCLUDE(AdditionalOp):
 
 
 class PRINT(AdditionalOp):
+    # This is just an example that you can add new operators if you need them.
     tokens: List[str] = ["PRINT", ]
     
     def execute(self, register: Register, pointer: Pointer, iostream: IIOstream):
@@ -209,6 +210,7 @@ class PRINT(AdditionalOp):
             print(self.arg.data)
 
 
+# List of operators, if you do not add your operator here, it will not be searched in the parser and processed in the executor
 ops: List[Union[OpS, OpI]] = [
     LOAD,
     STORE,

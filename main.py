@@ -8,7 +8,6 @@ from crealization.ciostream import CIOstream
 from crealization.cout import COut
 from ramsim.executor import Executor
 from ramsim.parser import Parser
-from ramsim.register import Register
 
 
 parser = argparse.ArgumentParser(description='Ram Sim by @ic-it')
@@ -39,8 +38,7 @@ else:
 p = Parser(args.source, COut())
 
 if p.parse():
-    r = Register()
-    e = Executor(p.parsed_data, COut(), cios, r, os.path.dirname(args.source) + "/", Callbacks(args.break_points, args.source))
+    e = Executor(p.parsed_data, COut(), cios, os.path.dirname(args.source) + "/", Callbacks(args.break_points, args.source))
     try:
         e.execute()
     except KeyboardInterrupt:

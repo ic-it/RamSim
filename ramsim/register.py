@@ -10,7 +10,7 @@ class Register:
         self.register = {0: 0}
         self.errors = []
     
-    def get_errors(self):
+    def get_errors(self) -> str:
         while self.errors:
             yield self.errors.pop(0)
     
