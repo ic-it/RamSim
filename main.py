@@ -35,10 +35,10 @@ if args.input and os.path.exists(args.input):
 else:
     cios = CIOstream()
 
-p = Parser(args.source, COut())
+p = Parser(os.path.abspath(args.source), COut())
 
 if p.parse():
-    e = Executor(p.parsed_data, COut(), cios, os.path.dirname(args.source) + "/", Callbacks(args.break_points, args.source))
+    e = Executor(p.parsed_data, COut(), cios, os.path.dirname(os.path.abspath(args.source)) + "/", Callbacks(args.break_points, os.path.abspath(args.source)))
     try:
         e.execute()
     except KeyboardInterrupt:
