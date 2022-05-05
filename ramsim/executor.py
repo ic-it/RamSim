@@ -51,26 +51,30 @@ class Executor:
         
     
     def includes(self) -> bool:
+        includes_history = []
         # Loading other files specified in the code. 
-        
-        includes = []
-        for n, op in enumerate(self.parsed_data):
-            if not isinstance(op, INCLUDE):
-                continue
-        
-            file_path = self.path + op.arg.data
-            if not os.path.exists(file_path) and os.path.exists(file_path + ".ram"):
-                file_path += ".ram"
-            if not os.path.exists(file_path):
-                self.out.runtime_error(f"File {file_path} not exists", op.line, op.file_path)
-                return False
+        while True in [isinstance(i, INCLUDE) for i in self.parsed_data]:
+            includes = []
+            for n, op in enumerate(self.parsed_data):
+                if not isinstance(op, INCLUDE):
+                    continue
             
-            p = Parser(file_path, self.out)
-            self.parsed_data.pop(n)
-            if not p.parse():
-                return False
-            includes += p.parsed_data
-        self.parsed_data = includes + self.parsed_data
+                file_path = self.path + op.arg.data
+                if not os.path.exists(file_path) and os.path.exists(file_path + ".ram"):
+                    file_path += ".ram"
+                if not os.path.exists(file_path):
+                    self.out.runtime_error(f"File {file_path} not exists", op.line, op.file_path)
+                    return False
+                if file_path in includes_history:
+                    self.out.runtime_error(f"Looks like a cycle inclde of {file_path}", op.line, op.file_path)
+                    return False
+                includes_history.append(file_path)
+                p = Parser(file_path, self.out)
+                self.parsed_data.pop(n)
+                if not p.parse():
+                    return False
+                includes += p.parsed_data
+            self.parsed_data = includes + self.parsed_data
         return True
     
     def execute(self) -> bool:

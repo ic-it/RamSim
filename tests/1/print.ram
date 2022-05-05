@@ -2,7 +2,7 @@ JUMP printSkipLabel
 
 print:
     write 1
-	write 2
+    write 2
     JUMP endPrint
 
 printSkipLabel:
